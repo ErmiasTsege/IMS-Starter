@@ -1,13 +1,11 @@
 package com.qa.ims.persistence.domain;
 
 public class Item {
-
 	private Long item_id;
 	private String product_name;
 	private Double price;
 
 	public Item(String product_name, Double price) {
-
 		this.setProduct_name(product_name);
 		this.setPrice(price);
 

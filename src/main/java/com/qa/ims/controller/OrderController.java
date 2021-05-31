@@ -1,9 +1,16 @@
 package com.qa.ims.controller;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.qa.ims.persistence.dao.OrderDAO;
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.utils.DBUtils;
 import com.qa.ims.utils.Utils;
 
 import org.apache.logging.log4j.LogManager;
@@ -32,6 +39,30 @@ public class OrderController implements CrudController<Order> {
 	/**
 	 * Reads all Items to the logger
 	 */
+//Method to calculate total cost
+
+	public Double calculateCost(Long itemid) {
+
+		Double getPrice = 0.0;
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * from items");) {
+			while (resultSet.next()) {
+
+				if (itemid == resultSet.getInt("item_id")) {
+					getPrice = resultSet.getDouble("price");
+				}
+			}
+			return getPrice;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+
+		}
+		return getPrice;
+
+	}
+
 	@Override
 	public List<Order> readAll() {
 		List<Order> orders = orderDAO.readAll();
@@ -52,7 +83,8 @@ public class OrderController implements CrudController<Order> {
 		Long item_id = utils.getLong();
 		LOGGER.info("Please enter quantity");
 		Long quantity = utils.getLong();
-		Order order = orderDAO.create(new Order(customer_id, item_id, quantity));
+		Double cost = calculateCost(item_id) * quantity;
+		Order order = orderDAO.create(new Order(customer_id, item_id, quantity, cost));
 		LOGGER.info("Order created");
 		return order;
 	}
@@ -70,6 +102,7 @@ public class OrderController implements CrudController<Order> {
 		Long item_id = utils.getLong();
 		LOGGER.info("Please enter a quantity");
 		Long quantity = utils.getLong();
+		Double cost = calculateCost(item_id) * quantity;
 		Order order = orderDAO.update(new Order(order_id, customer_id, item_id, quantity));
 		LOGGER.info("Order Updated");
 		return order;
