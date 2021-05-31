@@ -76,10 +76,12 @@ public class OrderDAO implements Dao<Order> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 
 				PreparedStatement statement = connection
-						.prepareStatement("INSERT INTO Orders(customer_id, item_id,quantity) VALUES (?,?,?)");) {
+						.prepareStatement("INSERT INTO Orders(customer_id, item_id,quantity,cost) VALUES (?,?,?,?)");) {
 			statement.setLong(1, order.getCustomer_id());
 			statement.setLong(2, order.getItem_id());
 			statement.setLong(3, order.getQuantity());
+			statement.setDouble(4, order.getCost());
+
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {

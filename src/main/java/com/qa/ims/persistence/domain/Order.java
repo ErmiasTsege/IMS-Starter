@@ -12,6 +12,15 @@ public class Order {
 		return cost;
 	}
 
+	public Order(Long customer_id, Long item_id, Long quantity, Double cost) {
+
+		this.setOrder_id(order_id);
+		this.setCustomer_id(customer_id);
+		this.setItem_id(item_id);
+		this.setQuantity(quantity);
+		this.setCost(cost);
+	}
+
 	public void setCost(Double cost) {
 		this.cost = cost;
 	}
