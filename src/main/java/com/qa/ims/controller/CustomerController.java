@@ -20,6 +20,7 @@ public class CustomerController implements CrudController<Customer> {
 	private CustomerDAO customerDAO;
 	private Utils utils;
 
+	
 	public CustomerController(CustomerDAO customerDAO, Utils utils) {
 		super();
 		this.customerDAO = customerDAO;
@@ -27,6 +28,7 @@ public class CustomerController implements CrudController<Customer> {
 	}
 
 	/**
+	 *
 	 * Reads all customers to the logger
 	 */
 	@Override

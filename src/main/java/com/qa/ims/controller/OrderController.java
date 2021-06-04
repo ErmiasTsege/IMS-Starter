@@ -38,6 +38,7 @@ public class OrderController implements CrudController<Order> {
 
 	/**
 	 * Reads all Items to the logger
+	 * 
 	 */
 //Method to calculate total cost
 
@@ -49,7 +50,7 @@ public class OrderController implements CrudController<Order> {
 				ResultSet resultSet = statement.executeQuery("SELECT * from items");) {
 			while (resultSet.next()) {
 
-				if (itemid == resultSet.getInt("item_id")) {
+				if (itemid == resultSet.getLong("item_id")) {
 					getPrice = resultSet.getDouble("price");
 				}
 			}
@@ -79,12 +80,8 @@ public class OrderController implements CrudController<Order> {
 	public Order create() {
 		LOGGER.info("Please enter a Customer id");
 		Long customer_id = utils.getLong();
-		LOGGER.info("Please enter item id");
-		Long item_id = utils.getLong();
-		LOGGER.info("Please enter quantity");
-		Long quantity = utils.getLong();
-		Double cost = calculateCost(item_id) * quantity;
-		Order order = orderDAO.create(new Order(customer_id, item_id, quantity, cost));
+
+		Order order = orderDAO.create(new Order(customer_id));
 		LOGGER.info("Order created");
 		return order;
 	}
@@ -98,12 +95,8 @@ public class OrderController implements CrudController<Order> {
 		Long order_id = utils.getLong();
 		LOGGER.info("Please enter a customer_id");
 		Long customer_id = utils.getLong();
-		LOGGER.info("Please enter a item_id");
-		Long item_id = utils.getLong();
-		LOGGER.info("Please enter a quantity");
-		Long quantity = utils.getLong();
-		Double cost = calculateCost(item_id) * quantity;
-		Order order = orderDAO.update(new Order(order_id, customer_id, item_id, quantity));
+
+		Order order = orderDAO.update(new Order(order_id, customer_id));
 		LOGGER.info("Order Updated");
 		return order;
 	}
