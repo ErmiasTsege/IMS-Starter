@@ -1,6 +1,6 @@
 
-# Project Title
-Inventory Management System
+# Inventory Management System
+
 An Inventory Management System made using the concepts of Object Oriented Analysis and Design.
   JAVA code is written in the eclipse editor and the MySql database is used to store data. The interface is console-based. 
   This project was designed during the QA JAVA script training program.
